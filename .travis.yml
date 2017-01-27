@@ -1,0 +1,26 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+
+env:
+  - DB=MYSQL CORE_RELEASE=4
+  - DB=PGSQL CORE_RELEASE=4
+
+before_script:
+  - composer self-update || true
+  - composer install
+  - "if [ \"$DB\" = \"PGSQL\" ]; then composer require silverstripe/postgresql:2.0.x-dev --prefer-dist; fi"
+  - curl https://phar.phpunit.de/phpunit-5.7.5.phar > ./phpunit
+  - chmod +x ./phpunit
+
+script:
+  - ./phpunit --coverage-clover=coverage.xml
+
+# Share coverage results with codecov.io
+after_success:
+  - mv coverage.xml ~/build/$TRAVIS_REPO_SLUG
+  - cd ~/build/$TRAVIS_REPO_SLUG
+  - bash <(curl -s https://codecov.io/bash)

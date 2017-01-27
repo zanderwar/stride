@@ -1,0 +1,7 @@
+.jstree ins {
+  background: transparent url(../../framework/admin/client/dist/images/sitetree_ss_default_icons.png);
+}
+
+.cms li.jstree-open>ul, .TreeDropdownField .treedropdownfield-panel li.jstree-open>ul {
+  margin-left: 0;
+}
